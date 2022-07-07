@@ -42,8 +42,8 @@ tasks:
     status:
       - test -d {{.APP_SRC_DIR}}
 
-  compose:up:
-    deps: [appdir]
+  run:
+    deps: [appdir, remove]
     desc: Run project with compose file.
     cmds:
       - >
@@ -58,7 +58,7 @@ tasks:
     cmds:
       - command {{.CONTAINER_RUN_TIME}} logs --follow {{.APP_NAME}}
 
-  compose:down:
+  stop:
     desc: Stop resoruces created by compose file.
     ignore_error: true
     cmds:
@@ -68,7 +68,7 @@ tasks:
         down
 
   remove:
-    deps: [compose:down]
+    deps: [stop]
     desc: Remove all containers.
     ignore_error: true
     cmds:
@@ -78,13 +78,3 @@ tasks:
       - >
         command {{.CONTAINER_RUN_TIME}} ps -a -q
         | xargs -- nerdctl container rm
-
-  build:
-    desc: Build app container.
-    cmds:
-      - >
-        command {{.CONTAINER_RUN_TIME}} build {{.CLI_ARGS}}
-        --build-arg APP_NAME={{.APP_NAME}}
-        -f {{.DOCKER_FILE}}
-        -t {{.CONTAINER_TAG_APP}}
-        .

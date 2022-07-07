@@ -17,7 +17,7 @@ services:
     ports:
       - $APP_HOST_PORT:$APP_PORT
     volumes:
-      - $PROJECT_DIR/$APP_SRC_DIR:/$APP_SRC_DIR
+      - $PROJECT_DIR/$APP_SRC_DIR:/home/$APP_NAME/$APP_NAME
 
   postgres:
     image: postgres

@@ -14,6 +14,6 @@ new App({
 
   // pass some props (optional)
   props: {
-    name: 'world'
+    name: 'Svelt'
   }
 })
