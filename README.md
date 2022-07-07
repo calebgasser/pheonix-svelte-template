@@ -1,4 +1,4 @@
-# Phoenix/Svelt template project.
+# Phoenix/Svelt template project
 
 [![GitHub Super-Linter](https://github.com/calebgasser/phoenix-svelte-template/workflows/Lint/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
@@ -9,7 +9,7 @@
 
 ## Usage
 
-1. Select `Use this template` on the github page.
+1. Select `Use this template` on the Github page.
 2. Change `config.env` to fit our purposes.
 3. Run `task run`
 4. Visit `localhost:4000` or something different depending on how you changed `config.env`
