@@ -8,7 +8,7 @@ ARG GID
 EXPOSE $APP_PORT
 
 # Install dependencies 
-RUN apk add --no-cache elixir bash nodejs yarn
+RUN apk add --no-cache elixir inotify-tools bash nodejs yarn
 
 RUN addgroup -g ${GID} ${APP_NAME}
 RUN adduser -D ${APP_NAME} -u ${UID} -G ${APP_NAME}
