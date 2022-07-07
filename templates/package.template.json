@@ -1,0 +1,17 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "scripts": {
+  },
+  "dependencies": {
+    "esbuild": "^0.12.29",
+    "esbuild-svelte": "^0.7.1",
+    "phoenix": "file:../deps/phoenix",
+    "phoenix_html": "file:../deps/phoenix_html",
+    "phoenix_live_view": "file:../deps/phoenix_live_view"
+  },
+  "devDependencies": {
+    "svelte": "^3.0.0",
+    "svelte-preprocess": "^3.3.1"
+  }
+}

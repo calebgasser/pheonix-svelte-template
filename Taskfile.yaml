@@ -1,0 +1,90 @@
+---
+version: "3"
+
+dotenv: ['config.env']
+
+vars:
+  PROJECT_DIR:
+    sh: pwd
+  COMPOSE_PROJECT_NAME: $APP_NAME
+  APP_NAME: $APP_NAME
+  APP_SRC_DIR: "{{.PROJECT_DIR}}/$APP_SRC_DIR"
+  APP_HOST_PORT: $APP_HOST_PORT
+  DOCKER_FILE: "{{.PROJECT_DIR}}/Dockerfile"
+  COMPOSE_FILE: "{{.PROJECT_DIR}}/deployments/compose/compose.yaml"
+  CONTAINER_TAG_BASE: app-base
+  CONTAINER_TAG_APP: pheonix-svelte-template
+  CONTAINER_RUN_TIME:
+    sh: |
+      if command -v nerdctl &> /dev/null; then
+        echo "nerdctl"
+      elif command -v docker &> /dev/null; then
+        echo "docker"
+      fi
+env:
+  POSTGRES_USERNAME: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_HOST: postgres
+  PROJECT_DIR: "{{.PROJECT_DIR}}"
+  DOCKER_FILE: "{{.DOCKER_FILE}}"
+  ENVIRONMENT: "DEVELOPMENT"
+  UID:
+    sh: id -u
+  GID:
+    sh: id -g
+
+tasks:
+
+  appdir:
+    desc: Create project directory.
+    cmds:
+      - mkdir {{.APP_SRC_DIR}}
+    status:
+      - test -d {{.APP_SRC_DIR}}
+
+  compose:up:
+    deps: [appdir]
+    desc: Run project with compose file.
+    cmds:
+      - >
+        command {{.CONTAINER_RUN_TIME}} compose {{.CLI_ARGS}}
+        -p {{.COMPOSE_PROJECT_NAME}}
+        -f {{.COMPOSE_FILE}}
+        up -d
+        --build
+
+  logs:
+    desc: Show logs for application and follow them.
+    cmds:
+      - command {{.CONTAINER_RUN_TIME}} logs --follow {{.APP_NAME}}
+
+  compose:down:
+    desc: Stop resoruces created by compose file.
+    ignore_error: true
+    cmds:
+      - >
+        command {{.CONTAINER_RUN_TIME}} compose {{.CLI_ARGS}}
+        -f {{.COMPOSE_FILE}}
+        down
+
+  remove:
+    deps: [compose:down]
+    desc: Remove all containers.
+    ignore_error: true
+    cmds:
+      - >
+        command {{.CONTAINER_RUN_TIME}} ps -a -q
+        | xargs -- nerdctl container stop
+      - >
+        command {{.CONTAINER_RUN_TIME}} ps -a -q
+        | xargs -- nerdctl container rm
+
+  build:
+    desc: Build app container.
+    cmds:
+      - >
+        command {{.CONTAINER_RUN_TIME}} build {{.CLI_ARGS}}
+        --build-arg APP_NAME={{.APP_NAME}}
+        -f {{.DOCKER_FILE}}
+        -t {{.CONTAINER_TAG_APP}}
+        .

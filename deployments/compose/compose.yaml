@@ -1,0 +1,25 @@
+---
+services:
+  app:
+    build:
+      context: $PROJECT_DIR
+      dockerfile: $DOCKER_FILE
+      args:
+        APP_NAME: $APP_NAME
+        UID: $UID
+        GID: $GID
+    container_name: $APP_NAME
+    environment:
+      APP_NAME: $APP_NAME
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_HOST: $POSTGRES_HOST
+    ports:
+      - $APP_HOST_PORT:$APP_PORT
+    volumes:
+      - $PROJECT_DIR/$APP_SRC_DIR:/$APP_SRC_DIR
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
