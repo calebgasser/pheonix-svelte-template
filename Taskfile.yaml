@@ -19,7 +19,14 @@ vars:
       if command -v nerdctl &> /dev/null; then
         echo "nerdctl"
       elif command -v docker &> /dev/null; then
-        echo "docker"
+        echo "dockere"
+      fi
+  COMPOSE_RUN_TIME:
+    sh: |
+      if command -v nerdctl &> /dev/null; then
+        echo "nerdctl compose"
+      elif command -v docker-compose &> /dev/null; then
+        echo "docker-compose"
       fi
 env:
   POSTGRES_USERNAME: postgres
@@ -47,7 +54,7 @@ tasks:
     desc: Run project with compose file.
     cmds:
       - >
-        command {{.CONTAINER_RUN_TIME}} compose {{.CLI_ARGS}}
+        command {{.COMPOSE_RUN_TIME}} {{.CLI_ARGS}}
         -p {{.COMPOSE_PROJECT_NAME}}
         -f {{.COMPOSE_FILE}}
         up -d
@@ -63,7 +70,7 @@ tasks:
     ignore_error: true
     cmds:
       - >
-        command {{.CONTAINER_RUN_TIME}} compose {{.CLI_ARGS}}
+        command {{.COMPOSE_RUN_TIME}} {{.CLI_ARGS}}
         -f {{.COMPOSE_FILE}}
         down
 

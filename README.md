@@ -2,10 +2,18 @@
 
 [![GitHub Super-Linter](https://github.com/calebgasser/phoenix-svelte-template/workflows/Lint/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Requirements](#requirements)
+- [Usage](#usage)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Requirements
 
-* nerdctl or docker
-* [task](https://www.taskfile.dev)
+- nerdctl or docker (not tested with docker yet.)
+- [task](https://www.taskfile.dev)
 
 ## Usage
 
